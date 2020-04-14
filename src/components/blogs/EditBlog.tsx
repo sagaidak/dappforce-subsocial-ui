@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
-import { Form, Field, withFormik, FormikProps } from 'formik';
+import { Form, Field, withFormik, FormikProps, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import { Option, Text, U32 } from '@polkadot/types';
@@ -47,8 +47,10 @@ const buildSchema = (p: ValidationProps) => Yup.object().shape({
     .max(URL_MAX_LEN, `Image URL is too long. Maximum length is ${URL_MAX_LEN} chars.`),
 
   desc: Yup.string()
-    .max(p.blogMaxLen.toNumber(), `Description is too long. Maximum length is ${p.blogMaxLen.toNumber()} chars.`)
+    .max(20, `Description is too long. Maximum length is ${20} chars.`)
 });
+
+// p.blogMaxLen.toNumber()
 
 type ValidationProps = {
   blogMaxLen: U32;
