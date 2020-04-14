@@ -47,10 +47,8 @@ const buildSchema = (p: ValidationProps) => Yup.object().shape({
     .max(URL_MAX_LEN, `Image URL is too long. Maximum length is ${URL_MAX_LEN} chars.`),
 
   desc: Yup.string()
-    .max(20, `Description is too long. Maximum length is ${20} chars.`)
+    .max(p.blogMaxLen.toNumber(), `Description is too long. Maximum length is ${p.blogMaxLen.toNumber()} chars.`)
 });
-
-// p.blogMaxLen.toNumber()
 
 type ValidationProps = {
   blogMaxLen: U32;
@@ -79,12 +77,13 @@ const InnerForm = (props: FormProps) => {
     id,
     struct,
     values,
-    errors,
     dirty,
+    errors,
     isValid,
     setFieldValue,
     isSubmitting,
     setSubmitting,
+    setFieldTouched,
     resetForm
   } = props;
 
@@ -159,7 +158,7 @@ const InnerForm = (props: FormProps) => {
         <LabelledText name='image' label='Image URL' placeholder={`Should be a valid image Url.`} {...props} />
 
         <LabelledField name='desc' label='Description' {...props}>
-          <Field component={SimpleMDEReact} name='desc' value={desc} onChange={(data: string) => setFieldValue('desc', data)} className={`DfMdEditor ${errors['desc'] && 'error'}`} />
+          <SimpleMDEReact value={desc} onChange={(data: string) => {setFieldValue('desc', data); setFieldTouched('desc', true);}} className={`DfMdEditor ${errors['desc'] && 'error'}`}/>
         </LabelledField>
 
         {/* TODO tags */}

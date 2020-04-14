@@ -74,6 +74,7 @@ const InnerForm = (props: FormProps) => {
     errors,
     setFieldValue,
     isSubmitting,
+    setFieldTouched,
     setSubmitting,
     resetForm,
     onlyTxButton = false,
@@ -185,7 +186,7 @@ const InnerForm = (props: FormProps) => {
           {/* TODO ask a post summary or auto-generate and show under an "Advanced" tab. */}
 
           <LabelledField name='body' label='Description' {...props}>
-            <Field component={SimpleMDEReact} name='body' value={body} onChange={(data: string) => setFieldValue('body', data)} className={`DfMdEditor ${errors['body'] && 'error'}`} />
+          <SimpleMDEReact value={body} onChange={(data: string) => {setFieldValue('body', data); setFieldTouched('body', true);}} className={`DfMdEditor ${errors['body'] && 'error'}`}/>
           </LabelledField>
         </>
         : <>
